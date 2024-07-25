@@ -1,22 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState, useEffect } from 'react';
+import { getExampleData } from './apiService';
 
 function App() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    getExampleData()
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <h1>React and Spring Boot Integration</h1>
+        {data ? <p>{data.message}</p> : <p>Loading...</p>}
       </header>
     </div>
   );
